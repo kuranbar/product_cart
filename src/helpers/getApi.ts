@@ -1,5 +1,5 @@
 import * as React from "react";
-import { PartialData } from "./Types/types";
+import { PartialData } from "../types/types";
 
 export const apiStates = {
   LOADING: "LOADING",
@@ -7,7 +7,7 @@ export const apiStates = {
   ERROR: "ERROR",
 };
 
-export const useApi = (url: string) => {
+export const useApi = (url: string): PartialData => {
   const [data, setData] = React.useState<PartialData>({
     state: apiStates.LOADING,
     error: "",
@@ -24,6 +24,7 @@ export const useApi = (url: string) => {
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
+        data.map((element: PartialData) => ({ ...element, quantity: 1 }));
         setPartData({
           state: apiStates.SUCCESS,
           data,
